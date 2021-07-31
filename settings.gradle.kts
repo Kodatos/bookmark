@@ -8,3 +8,4 @@ dependencyResolutionManagement {
 }
 rootProject.name = "Bookmark"
 include(":app")
+include(":shared")
