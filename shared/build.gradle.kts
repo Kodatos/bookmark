@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
+    id("com.squareup.sqldelight")
 }
 
 kotlin {
@@ -22,14 +23,26 @@ kotlin {
         }
     }*/
     sourceSets {
-        val commonMain by getting
+        val ktor_version = "1.6.2"
+        val commonMain by getting {
+            dependencies {
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1")
+                implementation("io.ktor:ktor-client-core:$ktor_version")
+                implementation("com.squareup.sqldelight:runtime:${rootProject.extra["sqldelight_version"]}")
+            }
+        }
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test-common"))
                 implementation(kotlin("test-annotations-common"))
             }
         }
-        val androidMain by getting
+        val androidMain by getting {
+            dependencies {
+                implementation("io.ktor:ktor-client-okhttp:$ktor_version")
+                implementation("com.squareup.sqldelight:android-driver:${rootProject.extra["sqldelight_version"]}")
+            }
+        }
         val androidTest by getting {
             dependencies {
                 implementation(kotlin("test-junit"))
@@ -47,6 +60,12 @@ android {
     defaultConfig {
         minSdkVersion(24)
         targetSdkVersion(30)
+    }
+}
+
+sqldelight {
+    database("BookmarkDatabase") {
+        packageName = "com.kodatos.bookmark.db"
     }
 }
 
