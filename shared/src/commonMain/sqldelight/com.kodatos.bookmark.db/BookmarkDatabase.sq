@@ -1,8 +1,17 @@
 CREATE TABLE ReadBooks (
-    ISBN TEXT NOT NULL,
-    FOREIGN KEY (ISBN) REFERENCES BookDetails(ISBN)
+    isbn TEXT NOT NULL,
+    startDate INTEGER NOT NULL,
+    completeDate INTEGER NOT NULL,
+    rating INTEGER CHECK(rating = NULL OR (rating >= 1 AND rating <= 5)),
+    FOREIGN KEY (isbn) REFERENCES BookDetails(ISBN)
 );
 
 CREATE TABLE BookDetails (
-    ISBN TEXT PRIMARY KEY
+    ISBN TEXT PRIMARY KEY CHECK(length(ISBN) = 13)
+);
+
+CREATE TABLE Wishlist(
+    isbn TEXT NOT NULL,
+    priority INTEGER DEFAULT(3) CHECK(priority IN (1,2,3)),
+    FOREIGN KEY (isbn) REFERENCES BookDetails(ISBN)
 );
