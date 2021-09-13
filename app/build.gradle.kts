@@ -1,6 +1,8 @@
 plugins {
     id("com.android.application")
     id("kotlin-android")
+    kotlin("kapt")
+    id("dagger.hilt.android.plugin")
 }
 
 android {
@@ -45,17 +47,28 @@ android {
 
 dependencies {
 
+    val lifecycle_version = "2.4.0-alpha03"
+
     implementation(project(":shared"))
     implementation("androidx.core:core-ktx:1.6.0")
-    implementation("androidx.appcompat:appcompat:1.3.0")
+    implementation("androidx.appcompat:appcompat:1.3.1")
     implementation("com.google.android.material:material:1.4.0")
     implementation("androidx.compose.ui:ui:${rootProject.extra["compose_version"]}")
     implementation("androidx.compose.material:material:${rootProject.extra["compose_version"]}")
     implementation("androidx.compose.ui:ui-tooling:${rootProject.extra["compose_version"]}")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.3.1")
-    implementation("androidx.activity:activity-compose:1.3.0")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version")
+    implementation("androidx.activity:activity-compose:1.3.1")
+    implementation("androidx.hilt:hilt-navigation-compose:1.0.0-alpha03")
+    implementation("com.google.dagger:hilt-android:${rootProject.extra["hilt_version"]}")
+    kapt("com.google.dagger:hilt-android-compiler:${rootProject.extra["hilt_version"]}")
     testImplementation("junit:junit:4.+")
     androidTestImplementation("androidx.test.ext:junit:1.1.3")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
     androidTestImplementation("androidx.compose.ui:ui-test-junit4:${rootProject.extra["compose_version"]}")
+}
+
+// Allow references to generated code
+kapt {
+    correctErrorTypes = true
 }
