@@ -26,9 +26,10 @@ class TestViewModel @Inject constructor() : ViewModel() {
         object Revealed : Nav()
     }
 
-    fun setNav(nav: Nav){
+    fun setNav(nav: Nav) {
         viewModelScope.launch {
             navChannel.send(nav)
         }
     }
 }
+
