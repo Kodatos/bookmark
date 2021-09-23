@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -18,7 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.unit.dp
 import com.kodatos.bookmark.composeutils.collectAsLifecycleAware
-import com.kodatos.bookmark.ui.theme.BookmarkTheme
+import com.kodatos.bookmark.components.theme.BookmarkTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

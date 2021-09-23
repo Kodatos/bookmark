@@ -1,8 +1,10 @@
-package com.kodatos.bookmark.ui.theme
+@file:SuppressWarnings("MagicNumber")
+package com.kodatos.bookmark.components.theme
 
 import androidx.compose.material.Colors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+
 
 val Purple200 = Color(0xFFBB86FC)
 val Purple500 = Color(0xFF6200EE)

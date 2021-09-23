@@ -1,4 +1,4 @@
-package com.kodatos.bookmark.ui.theme
+package com.kodatos.bookmark.components.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.Colors
@@ -33,6 +33,9 @@ private val LightColorPalette = lightColors(
 val Colors.systemBar: Color
     @Composable get() = Crantini800
 
+val Colors.appTitle: Color
+    @Composable get() = Color.White
+
 @Composable
 fun BookmarkTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable() () -> Unit) {
     val colors = if (darkTheme) {
@@ -43,7 +46,7 @@ fun BookmarkTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composab
 
     MaterialTheme(
             colors = colors,
-            typography = Typography,
+            typography = BookmarkTypography,
             shapes = Shapes,
             content = content
     )
