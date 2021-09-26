@@ -22,36 +22,48 @@ val OpenSans = FontFamily(
 )
 
 val BookmarkTypography = Typography(
-        h3 = TextStyle(
+        h1 = TextStyle(
                 fontFamily = BebasNue,
                 fontSize = 36.sp,
                 letterSpacing = 1.sp,
                 fontWeight = FontWeight.Normal
         ),
-        h4 = TextStyle(
+        h2 = TextStyle(
                 fontFamily = OpenSans,
                 fontSize = 24.sp,
                 letterSpacing = 0.sp,
                 fontWeight = FontWeight.Bold
         ),
-        h5 = TextStyle(
+        h3 = TextStyle(
+                fontFamily = OpenSans,
+                fontSize = 24.sp,
+                letterSpacing = 0.sp,
+                fontWeight = FontWeight.SemiBold
+        ),
+        h4 = TextStyle(
                 fontFamily = OpenSans,
                 fontSize = 20.sp,
                 letterSpacing = 0.15.sp,
                 fontWeight = FontWeight.SemiBold
+        ),
+        h6 = TextStyle(
+                fontFamily = OpenSans,
+                fontSize = 16.sp,
+                letterSpacing = 0.15.sp,
+                fontWeight = FontWeight.SemiBold,
         ),
         subtitle1 = TextStyle(
                 fontFamily = OpenSans,
                 fontSize = 16.sp,
                 letterSpacing = 0.15.sp,
                 fontWeight = FontWeight.Normal,
-                fontStyle = FontStyle.Italic
         ),
         subtitle2 = TextStyle(
                 fontFamily = OpenSans,
                 fontSize = 16.sp,
                 letterSpacing = 0.15.sp,
-                fontWeight = FontWeight.Normal
+                fontWeight = FontWeight.Normal,
+                fontStyle = FontStyle.Italic
         ),
         body1 = TextStyle(
                 fontFamily = FontFamily.SansSerif,

@@ -16,3 +16,7 @@ val Crantini700 = Color(0xFF72363d)
 val Crantini800 = Color(0xFF612a35)
 val Crantini300 = Color(0xFFba7f82)
 val Daisy300 = Color(0xFFffd640)
+
+
+val ContentBlack = Color(0xFF201a1a)
+
