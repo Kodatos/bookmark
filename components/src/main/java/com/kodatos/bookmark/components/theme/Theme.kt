@@ -8,6 +8,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
+import com.kodatos.bookmark.components.image.CoilImageProvider
+import com.kodatos.bookmark.components.image.LocalImageProvider
 
 
 private val DarkColorPalette = darkColors(
@@ -44,7 +46,10 @@ fun BookmarkTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composab
     val bookmarkColors: BookmarkColors = remember {
         BookmarkColors(systemBar = Crantini800, onPrimarySurface = Color.White)
     }
-    CompositionLocalProvider(LocalBookmarkColors provides bookmarkColors) {
+    CompositionLocalProvider(
+        LocalBookmarkColors provides bookmarkColors,
+        LocalImageProvider provides CoilImageProvider,
+    ) {
         MaterialTheme(
             colors = colors,
             typography = BookmarkTypography,
