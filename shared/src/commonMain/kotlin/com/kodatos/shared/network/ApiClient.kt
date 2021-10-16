@@ -1,11 +1,28 @@
 package com.kodatos.shared.network
 
+import com.kodatos.shared.BuildKonfig
+import com.kodatos.shared.network.response.NetworkResult
+import io.github.aakira.napier.Napier
 import io.ktor.client.*
+import io.ktor.client.call.*
 import io.ktor.client.features.*
+import io.ktor.client.features.get
 import io.ktor.client.features.json.*
+import io.ktor.client.features.logging.*
+import io.ktor.client.request.*
+import io.ktor.client.statement.*
+import io.ktor.http.*
+import me.tatarka.inject.annotations.Inject
 
-internal object ApiClient {
-    val ktorClient by lazy {
+typealias DebugMode = Boolean
+
+/**
+ * An API client facade that exposes generic REST methods which other specific API classes
+ * should use
+ */
+@Inject
+internal class ApiClient() {
+    private val ktorClient by lazy {
         HttpClient {
             install(JsonFeature)
             Charsets {
@@ -14,6 +31,51 @@ internal object ApiClient {
                 sendCharset = utf8
                 responseCharsetFallback = utf8
             }
+            if (BuildKonfig.DEBUG) {
+                Logging {
+                    level = LogLevel.ALL
+                    logger = object : Logger {
+                        override fun log(message: String) {
+                            Napier.d(message, tag = "ApiClient")
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    internal suspend inline fun <reified T> GET(
+        urlHost: String,
+        urlPath: String,
+        urlParams: Map<String, String>,
+        headers: Map<String, String> = mapOf(),
+        isHttps: Boolean = true
+    ): NetworkResult<T> {
+        return parseResponse(ktorClient.get {
+            url {
+                protocol = if (isHttps) URLProtocol.HTTPS else URLProtocol.HTTP
+                host = urlHost
+                encodedPath = urlPath
+            }
+            urlParams.forEach {
+                parameter(it.key, it.value)
+            }
+            headers {
+                headers.forEach {
+                    header(it.key, it.value)
+                }
+                header(HttpHeaders.Accept, "application/json")
+            }
+        })
+    }
+
+    private suspend inline fun <reified T> parseResponse(
+        response: HttpResponse
+    ): NetworkResult<T> {
+        if(response.status == HttpStatusCode.OK){
+            return NetworkResult.SUCCESS(response.receive())
+        } else {
+            return NetworkResult.ERROR(response.receive(), response.status)
         }
     }
 }

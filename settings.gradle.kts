@@ -3,7 +3,14 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven { setUrl("https://oss.sonatype.org/content/repositories/snapshots/") }
         jcenter() // Warning: this repository is going to shut down soon
+    }
+}
+pluginManagement {
+    repositories {
+        google()
+        gradlePluginPortal()
     }
 }
 rootProject.name = "Bookmark"

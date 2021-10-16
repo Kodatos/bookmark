@@ -1,13 +1,20 @@
+import com.google.devtools.ksp.gradle.KspTaskMetadata
+import com.google.devtools.ksp.gradle.KspTaskNative
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
+import org.jetbrains.kotlin.gradle.tasks.KotlinNativeCompile
 import org.jetbrains.kotlin.konan.properties.Properties
 import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
+import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.BOOLEAN
 import java.io.*
 
 plugins {
     kotlin("multiplatform")
+    kotlin("plugin.serialization") version "1.5.31"
     id("com.android.library")
     id("com.squareup.sqldelight")
     id("com.codingfeline.buildkonfig")
+    id("com.google.devtools.ksp") version "1.5.31-1.0.0"
+
 }
 
 buildkonfig {
@@ -17,6 +24,10 @@ buildkonfig {
     }
     defaultConfigs {
         buildConfigField(STRING, "NYT_API_KEY", secrets["NYT_API_KEY"] as String)
+        buildConfigField(BOOLEAN, "DEBUG", "false")
+    }
+    defaultConfigs("dev") {
+        buildConfigField(BOOLEAN, "DEBUG", "true")
     }
 }
 
@@ -40,9 +51,13 @@ kotlin {
         val ktor_version = "1.6.2"
         val commonMain by getting {
             dependencies {
+                implementation("me.tatarka.inject:kotlin-inject-runtime:${rootProject.extra["kotlin_inject_version"]}")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1")
                 implementation("io.ktor:ktor-client-core:$ktor_version")
                 implementation("io.ktor:ktor-client-serialization:$ktor_version")
+                implementation("io.ktor:ktor-client-logging:$ktor_version")
+                implementation("io.github.aakira:napier:2.1.0")
+                implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.3.0")
                 implementation("com.squareup.sqldelight:runtime:${rootProject.extra["sqldelight_version"]}")
             }
         }
@@ -69,6 +84,10 @@ kotlin {
     }
 }
 
+dependencies {
+    ksp("me.tatarka.inject:kotlin-inject-compiler-ksp:${rootProject.extra["kotlin_inject_version"]}")
+}
+
 android {
     compileSdkVersion(31)
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
@@ -82,6 +101,18 @@ sqldelight {
     database("BookmarkDatabase") {
         packageName = "com.kodatos.bookmark.db"
     }
+}
+
+// Generate common code with ksp instead of per-platform, hopefully this won't be needed in the future.
+// https://github.com/google/ksp/issues/567
+kotlin.sourceSets.commonMain {
+    kotlin.srcDir("build/generated/ksp/commonMain/kotlin")
+}
+tasks.withType<KspTaskNative>().configureEach {
+    enabled = false
+}
+tasks.withType<KotlinNativeCompile>().configureEach {
+    dependsOn(tasks.withType<KspTaskMetadata>())
 }
 
 
