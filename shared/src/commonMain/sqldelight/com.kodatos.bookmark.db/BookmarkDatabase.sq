@@ -2,12 +2,14 @@ CREATE TABLE ReadBooks (
     isbn TEXT NOT NULL,
     startDate INTEGER NOT NULL,
     completeDate INTEGER NOT NULL,
-    rating INTEGER CHECK(rating = NULL OR (rating >= 1 AND rating <= 5)),
+    rating INTEGER CHECK(rating >= 0 AND rating <= 5),
     FOREIGN KEY (isbn) REFERENCES BookDetails(ISBN)
 );
 
 CREATE TABLE BookDetails (
-    ISBN TEXT PRIMARY KEY CHECK(length(ISBN) = 13)
+    ISBN TEXT PRIMARY KEY CHECK(length(ISBN) = 13),
+    title TEXT NOT NULL,
+    author TEXT NOT NULL
 );
 
 CREATE TABLE Wishlist(

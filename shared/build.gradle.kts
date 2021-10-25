@@ -1,7 +1,9 @@
 import com.google.devtools.ksp.gradle.KspTaskMetadata
 import com.google.devtools.ksp.gradle.KspTaskNative
+import com.google.devtools.ksp.gradle.KspTaskJvm
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinNativeCompile
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jetbrains.kotlin.konan.properties.Properties
 import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
 import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.BOOLEAN
@@ -49,6 +51,7 @@ kotlin {
     }*/
     sourceSets {
         val ktor_version = "1.6.2"
+        val kotest_version = "5.0.0.M3"
         val commonMain by getting {
             dependencies {
                 implementation("me.tatarka.inject:kotlin-inject-runtime:${rootProject.extra["kotlin_inject_version"]}")
@@ -65,6 +68,7 @@ kotlin {
             dependencies {
                 implementation(kotlin("test-common"))
                 implementation(kotlin("test-annotations-common"))
+                implementation("io.kotest:kotest-runner-junit5:$kotest_version")
             }
         }
         val androidMain by getting {
@@ -108,11 +112,15 @@ sqldelight {
 kotlin.sourceSets.commonMain {
     kotlin.srcDir("build/generated/ksp/commonMain/kotlin")
 }
-tasks.withType<KspTaskNative>().configureEach {
+tasks.withType<KspTaskJvm>().configureEach {
     enabled = false
 }
-tasks.withType<KotlinNativeCompile>().configureEach {
+tasks.withType<KotlinCompile>().configureEach {
     dependsOn(tasks.withType<KspTaskMetadata>())
+}
+
+tasks.withType<Test> {
+    useJUnitPlatform()
 }
 
 

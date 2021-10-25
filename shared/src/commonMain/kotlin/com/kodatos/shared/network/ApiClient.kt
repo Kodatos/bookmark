@@ -1,20 +1,18 @@
 package com.kodatos.shared.network
 
 import com.kodatos.shared.BuildKonfig
-import com.kodatos.shared.network.response.NetworkResult
+import com.kodatos.shared.domain.common.Result
 import io.github.aakira.napier.Napier
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.features.*
-import io.ktor.client.features.get
+import io.ktor.client.features.cache.*
 import io.ktor.client.features.json.*
 import io.ktor.client.features.logging.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
 import me.tatarka.inject.annotations.Inject
-
-typealias DebugMode = Boolean
 
 /**
  * An API client facade that exposes generic REST methods which other specific API classes
@@ -25,6 +23,7 @@ internal class ApiClient() {
     private val ktorClient by lazy {
         HttpClient {
             install(JsonFeature)
+            install(HttpCache)
             Charsets {
                 val utf8 = io.ktor.utils.io.charsets.Charsets.UTF_8
                 register(utf8)
@@ -50,7 +49,7 @@ internal class ApiClient() {
         urlParams: Map<String, String>,
         headers: Map<String, String> = mapOf(),
         isHttps: Boolean = true
-    ): NetworkResult<T> {
+    ): Result<T, String> {
         return parseResponse(ktorClient.get {
             url {
                 protocol = if (isHttps) URLProtocol.HTTPS else URLProtocol.HTTP
@@ -71,11 +70,11 @@ internal class ApiClient() {
 
     private suspend inline fun <reified T> parseResponse(
         response: HttpResponse
-    ): NetworkResult<T> {
-        if(response.status == HttpStatusCode.OK){
-            return NetworkResult.SUCCESS(response.receive())
+    ): Result<T, String> {
+        return if(response.status == HttpStatusCode.OK){
+            NetworkSuccess(response.receive())
         } else {
-            return NetworkResult.ERROR(response.receive(), response.status)
+            NetworkError(response.receive(), response.status)
         }
     }
 }
