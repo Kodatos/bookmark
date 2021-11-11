@@ -84,7 +84,7 @@ fun TestBackdrop(navState: TestViewModel.Nav, setNav: (TestViewModel.Nav) -> Uni
     BackdropScaffold(scaffoldState = backdropScaffoldState,
         appBar = {
             PrimaryContainerSurface(
-                tonalElevation = 8.dp,
+                tonalElevation = 16.dp,
             ) {
                 Column(
                     modifier = Modifier
