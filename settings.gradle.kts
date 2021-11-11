@@ -9,8 +9,8 @@ dependencyResolutionManagement {
 }
 pluginManagement {
     repositories {
-        google()
         gradlePluginPortal()
+        google()
     }
 }
 rootProject.name = "Bookmark"

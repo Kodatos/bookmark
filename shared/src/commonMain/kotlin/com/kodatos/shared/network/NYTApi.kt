@@ -1,11 +1,13 @@
 package com.kodatos.shared.network
 
 import com.kodatos.shared.BuildKonfig
+import com.kodatos.shared.di.SharedSingleton
 import com.kodatos.shared.domain.BestsellerList
 import com.kodatos.shared.network.response.NYTBestsellerResponse
 import com.kodatos.shared.domain.common.Result
 import me.tatarka.inject.annotations.Inject
 
+@SharedSingleton
 @Inject
 internal class NYTApi(
     private val apiClient: ApiClient,

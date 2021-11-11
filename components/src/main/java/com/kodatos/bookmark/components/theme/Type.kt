@@ -1,6 +1,6 @@
 package com.kodatos.bookmark.components.theme
 
-import androidx.compose.material.Typography
+import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -22,62 +22,63 @@ val OpenSans = FontFamily(
 )
 
 val BookmarkTypography = Typography(
-        h1 = TextStyle(
+
+        displayLarge = TextStyle(
                 fontFamily = BebasNue,
-                fontSize = 36.sp,
+                fontSize = 48.sp,
                 letterSpacing = 1.sp,
                 fontWeight = FontWeight.Normal
         ),
-        h2 = TextStyle(
+        displaySmall = TextStyle(
+                fontFamily = BebasNue,
+                fontSize = 28.sp,
+                letterSpacing = 0.15.sp,
+                fontWeight = FontWeight.Normal,
+        ),
+        headlineLarge = TextStyle(
                 fontFamily = OpenSans,
-                fontSize = 24.sp,
+                fontSize = 32.sp,
                 letterSpacing = 0.sp,
                 fontWeight = FontWeight.Bold
         ),
-        h3 = TextStyle(
+        headlineMedium = TextStyle(
+                fontFamily = OpenSans,
+                fontSize = 28.sp,
+                letterSpacing = 0.15.sp,
+                fontWeight = FontWeight.Normal,
+                fontStyle = FontStyle.Italic
+        ),
+        titleLarge = TextStyle(
                 fontFamily = OpenSans,
                 fontSize = 24.sp,
                 letterSpacing = 0.sp,
                 fontWeight = FontWeight.SemiBold
         ),
-        h4 = TextStyle(
+        titleMedium = TextStyle(
                 fontFamily = OpenSans,
                 fontSize = 20.sp,
                 letterSpacing = 0.15.sp,
                 fontWeight = FontWeight.SemiBold
         ),
-        h6 = TextStyle(
+        titleSmall = TextStyle(
                 fontFamily = OpenSans,
                 fontSize = 16.sp,
-                letterSpacing = 0.15.sp,
+                letterSpacing = 0.5.sp,
                 fontWeight = FontWeight.SemiBold,
         ),
-        subtitle1 = TextStyle(
-                fontFamily = OpenSans,
-                fontSize = 16.sp,
-                letterSpacing = 0.15.sp,
-                fontWeight = FontWeight.Normal,
-        ),
-        subtitle2 = TextStyle(
-                fontFamily = OpenSans,
-                fontSize = 16.sp,
-                letterSpacing = 0.15.sp,
-                fontWeight = FontWeight.Normal,
-                fontStyle = FontStyle.Italic
-        ),
-        body1 = TextStyle(
+        bodyMedium = TextStyle(
                 fontFamily = FontFamily.SansSerif,
                 fontSize = 16.sp,
                 letterSpacing = 0.5.sp,
                 fontWeight = FontWeight.Normal,
         ),
-        body2 = TextStyle(
+        bodySmall = TextStyle(
                 fontFamily = FontFamily.SansSerif,
                 fontSize = 14.sp,
                 letterSpacing = 0.25.sp,
                 fontWeight = FontWeight.Normal
         ),
-        button = TextStyle(
+        labelSmall = TextStyle(
                 fontFamily = OpenSans,
                 fontWeight = FontWeight.SemiBold,
                 fontSize = 14.sp,

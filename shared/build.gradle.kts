@@ -1,13 +1,7 @@
-import com.google.devtools.ksp.gradle.KspTaskMetadata
-import com.google.devtools.ksp.gradle.KspTaskNative
-import com.google.devtools.ksp.gradle.KspTaskJvm
-import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
-import org.jetbrains.kotlin.gradle.tasks.KotlinNativeCompile
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import org.jetbrains.kotlin.konan.properties.Properties
-import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
 import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.BOOLEAN
-import java.io.*
+import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
+import org.jetbrains.kotlin.konan.properties.Properties
+import java.io.FileInputStream
 
 plugins {
     kotlin("multiplatform")
@@ -15,7 +9,7 @@ plugins {
     id("com.android.library")
     id("com.squareup.sqldelight")
     id("com.codingfeline.buildkonfig")
-    id("com.google.devtools.ksp") version "1.5.31-1.0.0"
+    id("com.google.devtools.ksp") version "1.6.0-RC-1.0.1-RC"
 
 }
 
@@ -89,7 +83,7 @@ kotlin {
 }
 
 dependencies {
-    ksp("me.tatarka.inject:kotlin-inject-compiler-ksp:${rootProject.extra["kotlin_inject_version"]}")
+    add("kspMetadata", "me.tatarka.inject:kotlin-inject-compiler-ksp:${rootProject.extra["kotlin_inject_version"]}")
 }
 
 android {
@@ -112,11 +106,10 @@ sqldelight {
 kotlin.sourceSets.commonMain {
     kotlin.srcDir("build/generated/ksp/commonMain/kotlin")
 }
-tasks.withType<KspTaskJvm>().configureEach {
-    enabled = false
-}
-tasks.withType<KotlinCompile>().configureEach {
-    dependsOn(tasks.withType<KspTaskMetadata>())
+tasks.withType<org.jetbrains.kotlin.gradle.dsl.KotlinCompile<*>>().all {
+    if (name != "kspKotlinMetadata") {
+        dependsOn("kspKotlinMetadata")
+    }
 }
 
 tasks.withType<Test> {
@@ -125,7 +118,7 @@ tasks.withType<Test> {
 
 
 /*
-val packForXcode by tasks.creating(Sync::class) {
+val packForXcode by tasks.creating(Sync::class)s {
     val mode = System.getenv("CONFIGURATION") ?: "DEBUG"
     val framework = kotlin.targets.getByName<KotlinNativeTarget>("ios").binaries.getFramework(mode)
     val targetDir = File(buildDir, "xcode-frameworks")

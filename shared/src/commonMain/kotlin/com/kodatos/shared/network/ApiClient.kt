@@ -63,7 +63,8 @@ internal class ApiClient() {
                 headers.forEach {
                     header(it.key, it.value)
                 }
-                header(HttpHeaders.Accept, "application/json")
+                if(HttpHeaders.Accept !in headers)
+                    header(HttpHeaders.Accept, "application/json")
             }
         })
     }
