@@ -1,10 +1,14 @@
 package com.kodatos.shared.cache
 
+import com.kodatos.shared.di.SharedSingleton
 import com.kodatos.shared.domain.common.Book
+import me.tatarka.inject.annotations.Inject
 
+@SharedSingleton
+@Inject
 class BookDetailsCache(override val size: Int) : MemoryCache<String, Book> {
 
-    private val _map = LinkedHashMap<String, Book>((size / 4).coerceAtLeast(24))
+    private val _map = LinkedHashMap<String, Book>((size / 4).coerceAtLeast(5))
 
     override fun has(key: String): Boolean {
         return key in _map

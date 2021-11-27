@@ -7,7 +7,7 @@ object PlatformLayer {
 
     private lateinit var component: SharedComponent
 
-    fun init() {
-        component = SharedComponent::class.create()
+    fun init(bookCacheSize: Int) {
+        component = SharedComponent::class.create(SharedComponent.SharedComponentArgs(50))
     }
 }

@@ -53,25 +53,28 @@ android {
 dependencies {
 
     val lifecycle_version = "2.4.0-alpha03"
+    val mvx_version = "2.4.0"
+    val mvx_compose_version = "2.1.0-alpha02"
 
     implementation(project(":shared"))
     implementation(project(":components"))
     implementation("androidx.core:core-ktx:1.7.0")
-    implementation("androidx.appcompat:appcompat:1.3.1")
+    implementation("androidx.appcompat:appcompat:1.4.0")
     implementation("com.google.android.material:material:1.4.0")
     implementation("androidx.compose.ui:ui:${rootProject.extra["compose_version"]}")
     implementation("androidx.compose.material:material:${rootProject.extra["compose_version"]}")
     implementation("androidx.compose.material3:material3:1.0.0-alpha01")
     implementation("androidx.compose.ui:ui-tooling:${rootProject.extra["compose_version"]}")
-    implementation("androidx.navigation:navigation-compose:2.4.0-beta01")
-    implementation("androidx.hilt:hilt-navigation-compose:1.0.0-alpha03")
+    implementation("androidx.navigation:navigation-compose:2.4.0-beta02")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version")
     implementation("androidx.activity:activity-compose:1.4.0")
-    implementation("androidx.hilt:hilt-navigation-compose:1.0.0-alpha03")
+    implementation("androidx.hilt:hilt-navigation-compose:1.0.0-beta01")
     implementation("com.google.accompanist:accompanist-insets:0.21.2-SNAPSHOT")
     implementation("com.google.accompanist:accompanist-systemuicontroller:0.21.2-SNAPSHOT")
     implementation("com.google.dagger:hilt-android:${rootProject.extra["hilt_version"]}")
+/*    implementation("com.airbnb.android:mavericks:$mvx_version")
+    implementation("com.airbnb.android:mavericks-compose:$mvx_compose_version")*/
     kapt("com.google.dagger:hilt-android-compiler:${rootProject.extra["hilt_version"]}")
     testImplementation("junit:junit:4.+")
     androidTestImplementation("androidx.test.ext:junit:1.1.3")

@@ -1,7 +1,10 @@
-CREATE TABLE ReadBooks (
+import com.kodatos.shared.domain.common.BookPriority;
+import kotlin.collections.List;
+
+CREATE TABLE SavedBooks (
     isbn TEXT NOT NULL,
-    startDate INTEGER NOT NULL,
-    completeDate INTEGER NOT NULL,
+    startDate INTEGER AS Long NOT NULL,
+    completeDate INTEGER AS Long NOT NULL,
     rating INTEGER CHECK(rating >= 0 AND rating <= 5),
     FOREIGN KEY (isbn) REFERENCES BookDetails(ISBN)
 );
@@ -9,11 +12,29 @@ CREATE TABLE ReadBooks (
 CREATE TABLE BookDetails (
     ISBN TEXT PRIMARY KEY CHECK(length(ISBN) = 13),
     title TEXT NOT NULL,
-    author TEXT NOT NULL
+    subtitle TEXT,
+    author TEXT NOT NULL,
+    secondaryAuthors TEXT AS List<String>,
+    description TEXT NOT NULL,
+    imageUrl TEXT,
+    pageCount INTEGER,
+    genres TEXT AS List<String>,
+    onlineRating REAL AS Double,
+    publisher TEXT
 );
 
 CREATE TABLE Wishlist(
     isbn TEXT NOT NULL,
-    priority INTEGER DEFAULT(3) CHECK(priority IN (1,2,3)),
+    priority INTEGER AS BookPriority DEFAULT(3) CHECK(priority IN (1,2,3)),
     FOREIGN KEY (isbn) REFERENCES BookDetails(ISBN)
 );
+
+selectBookByISBN:
+SELECT *
+FROM BookDetails
+WHERE ISBN = :isbn;
+
+getSavedBooks:
+SELECT *
+FROM SavedBooks
+JOIN BookDetails ON SavedBooks.isbn = BookDetails.ISBN;

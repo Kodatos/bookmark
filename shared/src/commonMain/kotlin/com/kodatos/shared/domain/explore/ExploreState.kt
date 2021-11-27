@@ -1,6 +1,14 @@
 package com.kodatos.shared.domain.explore
 
-sealed class ExploreState {
+import com.kodatos.shared.domain.common.Book
+import com.kodatos.shared.domain.unit.ProgressBarLoadingState
+import com.kodatos.shared.domain.unit.State
 
-    object Loading : ExploreState()
+sealed interface ExploreState: State {
+
+    object Loading : ProgressBarLoadingState("Exploring..."), ExploreState
+
+    data class ExploreBooksState(
+       val books: List<Book>
+    ): ExploreState
 }
