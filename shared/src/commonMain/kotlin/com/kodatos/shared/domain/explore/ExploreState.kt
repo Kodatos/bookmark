@@ -6,9 +6,11 @@ import com.kodatos.shared.domain.unit.State
 
 sealed interface ExploreState: State {
 
-    object Loading : ProgressBarLoadingState("Exploring..."), ExploreState
+    object Init : ProgressBarLoadingState("Exploring..."), ExploreState
+    object Error: ExploreState
 
     data class ExploreBooksState(
        val books: List<Book>
     ): ExploreState
+
 }

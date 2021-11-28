@@ -3,11 +3,9 @@ package com.kodatos.shared.domain.unit
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.StateFlow
 
-interface DomainUnit<S: State, E: Event, Action> {
+interface DomainUnit<S: State, Action> {
 
     val state: StateFlow<S>
-    val eventChannel: Channel<E>
-    fun dispatch(action: Action)
+    val eventChannel: Channel<Event>
+    suspend fun dispatch(action: Action)
 }
-
-interface Event

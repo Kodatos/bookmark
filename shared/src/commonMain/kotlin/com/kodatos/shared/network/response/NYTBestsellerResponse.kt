@@ -12,9 +12,13 @@ data class NYTBookItem(
     val isbns: List<NYTBookISBN>,
     val rank: Int,
     val weeks_on_list: Int,
-)
+) {
+    fun getISBN13(): String? {
+        return isbns.firstOrNull { it.isbn13 != null }?.isbn13
+    }
+}
 
 @Serializable
 data class NYTBookISBN(
-    val isbn13: String
+    val isbn13: String?
 )
