@@ -1,5 +1,6 @@
 package com.kodatos.shared.domain.unit
 
+import com.kodatos.shared.domain.unit.event.Event
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.StateFlow
 

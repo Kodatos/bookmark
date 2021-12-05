@@ -1,0 +1,26 @@
+package com.kodatos.bookmark.helper
+
+import com.kodatos.shared.domain.unit.event.Event
+import com.kodatos.shared.domain.unit.event.NavEvent
+import com.kodatos.shared.domain.unit.event.UIEvent
+import kotlinx.coroutines.channels.Channel
+import timber.log.Timber
+import javax.inject.Inject
+import javax.inject.Singleton
+
+@Singleton
+class EventManager @Inject constructor() {
+
+    val navigationChannel = Channel<NavEvent>(Channel.BUFFERED)
+    val uiEventChannel = Channel<UIEvent>(Channel.BUFFERED)
+
+    suspend fun triggerEvent(event: Event) {
+        if(event is NavEvent)
+            navigationChannel.send(event)
+        else if (event is UIEvent)
+            uiEventChannel.send(event)
+        else {
+            Timber.d("Unhandled event: ${event.javaClass.simpleName}")
+        }
+    }
+}

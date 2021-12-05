@@ -2,11 +2,10 @@ package com.kodatos.shared.domain.explore
 
 import com.kodatos.shared.di.SharedSingleton
 import com.kodatos.shared.domain.BestsellerList
-import com.kodatos.shared.domain.common.Book
 import com.kodatos.shared.domain.common.Result
 import com.kodatos.shared.domain.unit.DomainUnit
-import com.kodatos.shared.domain.unit.Event
-import com.kodatos.shared.domain.unit.ToastEvent
+import com.kodatos.shared.domain.unit.event.Event
+import com.kodatos.shared.domain.unit.event.ToastEvent
 import com.kodatos.shared.repo.BookmarkRepository
 import io.github.aakira.napier.Napier
 import kotlinx.coroutines.channels.Channel

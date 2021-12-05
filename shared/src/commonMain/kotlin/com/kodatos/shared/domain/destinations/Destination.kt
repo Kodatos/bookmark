@@ -9,4 +9,6 @@ sealed class Destination<T : DestinationArg>(
 sealed class NoArgsDestination(route: String) : Destination<EmptyArgs>(route, EmptyArgs)
 
 sealed interface DestinationArg
+
 object EmptyArgs : DestinationArg
+class StringArg(value: String): DestinationArg

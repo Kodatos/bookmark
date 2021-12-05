@@ -19,6 +19,7 @@ import me.tatarka.inject.annotations.Provides
 internal abstract class SharedComponent(@get:Provides private val args: SharedComponentArgs) {
 
     protected abstract val repository: BookmarkRepository
+    abstract val exploreDomainUnit: DomainUnit<ExploreState, ExploreAction>
 
     protected val BookmarkRepoImpl.bind: BookmarkRepository
        @SharedSingleton @Provides get() = this
