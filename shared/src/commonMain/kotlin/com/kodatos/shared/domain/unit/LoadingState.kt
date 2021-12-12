@@ -1,5 +1,8 @@
 package com.kodatos.shared.domain.unit
 
+/**
+ * Interface representing common initial loading [State]s
+ */
 interface LoadingState : State
 
 open class ProgressBarLoadingState(

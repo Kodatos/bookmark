@@ -9,12 +9,12 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class EventManager @Inject constructor() {
+class EventManager @Inject constructor() : EventConsumer, EventChannelProducer {
 
-    val navigationChannel = Channel<NavEvent>(Channel.BUFFERED)
-    val uiEventChannel = Channel<UIEvent>(Channel.BUFFERED)
+    override val navigationChannel = Channel<NavEvent>(Channel.BUFFERED)
+    override val uiEventChannel = Channel<UIEvent>(Channel.BUFFERED)
 
-    suspend fun triggerEvent(event: Event) {
+    override suspend fun triggerEvent(event: Event) {
         if(event is NavEvent)
             navigationChannel.send(event)
         else if (event is UIEvent)

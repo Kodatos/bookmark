@@ -2,8 +2,8 @@ package com.kodatos.shared.domain.unit.event
 
 sealed interface UIEvent: Event
 
-class ToastEvent(text: String, duration: Duration): UIEvent {
-    companion object {
-        enum class Duration { SHORT, LONG}
-    }
+class ToastEvent(val text: String, val duration: Duration): UIEvent {
+    override fun asString() = "Showing toast with text $text and for a $duration time"
+    enum class Duration { SHORT, LONG }
+
 }

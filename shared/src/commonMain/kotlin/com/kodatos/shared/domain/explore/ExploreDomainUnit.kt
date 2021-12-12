@@ -4,11 +4,9 @@ import com.kodatos.shared.di.SharedSingleton
 import com.kodatos.shared.domain.BestsellerList
 import com.kodatos.shared.domain.common.Result
 import com.kodatos.shared.domain.unit.DomainUnit
-import com.kodatos.shared.domain.unit.event.Event
 import com.kodatos.shared.domain.unit.event.ToastEvent
 import com.kodatos.shared.repo.BookmarkRepository
 import io.github.aakira.napier.Napier
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import me.tatarka.inject.annotations.Inject
 
@@ -16,18 +14,13 @@ import me.tatarka.inject.annotations.Inject
 @Inject
 internal class ExploreDomainUnit(
     private val repository: BookmarkRepository
-) : DomainUnit<ExploreState, ExploreAction> {
-    private val _state = MutableStateFlow<ExploreState>(ExploreState.Init)
-
-    override val state: StateFlow<ExploreState>
-        get() = _state
-    override val eventChannel: Channel<Event> = Channel(Channel.BUFFERED)
+) : DomainUnit<ExploreState, ExploreAction>(initialState = ExploreState.Init) {
 
     override suspend fun dispatch(action: ExploreAction) {
         when (action) {
             is ExploreAction.Load -> getRecommendedBooks(action.categories)
-            ExploreAction.Click -> {
-
+            is ExploreAction.BookClick -> {
+                sendEvent(ToastEvent("Exploring ${action.book.title}", ToastEvent.Duration.LONG))
             }
         }
     }
@@ -63,25 +56,27 @@ internal class ExploreDomainUnit(
                     Napier.d((it as Result.ERROR).error)
                 }
                 if (bookList.isNotEmpty()) {
-                    val currState = _state.value
-                    _state.value = when (currState) {
-                        is ExploreState.Init, ExploreState.Error -> {
-                            ExploreState.ExploreBooksState(bookList)
+                    val currState = state.value
+                    setState(
+                        when (currState) {
+                            is ExploreState.Init, ExploreState.Error -> {
+                                ExploreState.ExploreBooksState(bookList)
+                            }
+                            is ExploreState.ExploreBooksState -> {
+                                ExploreState.ExploreBooksState(currState.books + bookList)
+                            }
                         }
-                        is ExploreState.ExploreBooksState -> {
-                            ExploreState.ExploreBooksState(currState.books + bookList)
-                        }
-                    }
+                    )
                 }
             }
-        if (_state.value is ExploreState.Init) {
-            eventChannel.send(
+        if (state.value is ExploreState.Init) {
+            sendEvent(
                 ToastEvent(
                     "Couldn't retrieve recommended books",
-                    ToastEvent.Companion.Duration.SHORT
+                    ToastEvent.Duration.SHORT
                 )
             )
-            _state.value = ExploreState.Error
+            setState(ExploreState.Error)
         }
     }
 
