@@ -3,6 +3,7 @@ package com.kodatos.shared.domain.explore
 import com.kodatos.shared.di.SharedSingleton
 import com.kodatos.shared.domain.BestsellerList
 import com.kodatos.shared.domain.common.Result
+import com.kodatos.shared.domain.common.getOrElse
 import com.kodatos.shared.domain.unit.DomainUnit
 import com.kodatos.shared.domain.unit.event.ToastEvent
 import com.kodatos.shared.repo.BookmarkRepository
@@ -26,28 +27,26 @@ internal class ExploreDomainUnit(
     }
 
     private suspend fun getRecommendedBooks(categories: List<BestsellerList>) {
-        var error: String? = null
         repository.getRecommendedBooks(categories)
-            .mapNotNull { result ->
-                if (result is Result.SUCCESS) {
-                    val list = result.value.results.sortedWith { first, second ->
-                        if (first.rank == second.rank)
-                            first.weeks_on_list - second.weeks_on_list
-                        else
-                            first.rank - second.rank
-                    }
-                    list.mapNotNull {
-                        it.getISBN13()?.let { isbn ->
-                            repository.getBookDetails(isbn)
-                        }
-                    }
-                } else {
-                    error = (result as Result.ERROR).error
-                    Napier.d(error ?: "NYT API Error")
+            .mapNotNull { response ->
+
+                val bookResultList = response.getOrElse {
+                    Napier.d(it)
                     null
+                }?.results
+
+                bookResultList?.sortedWith { first, second ->
+                    if (first.rank == second.rank)
+                        first.weeks_on_list - second.weeks_on_list
+                    else
+                        first.rank - second.rank
+                }?.mapNotNull {
+                    it.getISBN13()?.let { isbn ->
+                        repository.getBookDetails(isbn)
+                    }
                 }
             }.collect { bookDetails ->
-                val splitList = bookDetails.partition { it is Result.SUCCESS }
+                val splitList = bookDetails.partition { it.isSuccess() }
                 val bookList = splitList.first
                     .map {
                         (it as Result.SUCCESS).value
@@ -56,7 +55,7 @@ internal class ExploreDomainUnit(
                     Napier.d((it as Result.ERROR).error)
                 }
                 if (bookList.isNotEmpty()) {
-                    val currState = state.value
+                    val currState = currentState
                     setState(
                         when (currState) {
                             is ExploreState.Init, ExploreState.Error -> {
@@ -69,7 +68,7 @@ internal class ExploreDomainUnit(
                     )
                 }
             }
-        if (state.value is ExploreState.Init) {
+        if (currentState is ExploreState.Init) {
             sendEvent(
                 ToastEvent(
                     "Couldn't retrieve recommended books",

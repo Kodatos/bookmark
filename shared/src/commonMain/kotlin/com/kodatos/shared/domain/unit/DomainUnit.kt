@@ -33,6 +33,9 @@ abstract class DomainUnit<S : State, A : Action>(private val initialState: S) {
     val state: StateFlow<S>
         get() = _state
 
+    val currentState: S
+        get() = state.value
+
     private val events = MutableSharedFlow<Event>(
         extraBufferCapacity = 1,
         onBufferOverflow = BufferOverflow.DROP_OLDEST

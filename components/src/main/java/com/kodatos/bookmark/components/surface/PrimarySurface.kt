@@ -10,9 +10,9 @@ import com.kodatos.bookmark.components.theme.elevateByPrimary
 
 @Composable
 fun PrimaryContainerSurface(
+    modifier: Modifier = Modifier,
     tonalElevation: Dp = 0.dp,
     shadowElevation: Dp = 0.dp,
-    modifier: Modifier = Modifier,
     content: @Composable () -> Unit
 ) {
     Surface(

@@ -15,6 +15,7 @@ class EventManager @Inject constructor() : EventConsumer, EventChannelProducer {
     override val uiEventChannel = Channel<UIEvent>(Channel.BUFFERED)
 
     override suspend fun triggerEvent(event: Event) {
+        Timber.d(event.toString())
         if(event is NavEvent)
             navigationChannel.send(event)
         else if (event is UIEvent)

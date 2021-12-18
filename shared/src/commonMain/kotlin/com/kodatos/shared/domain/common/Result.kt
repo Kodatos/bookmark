@@ -13,7 +13,7 @@ fun <T> Result<T, *>.getOrNull(): T? {
     else null
 }
 
-fun <T, E> Result<T, E>.getOrElse(provider: (E) -> T): T? {
+fun <T, E> Result<T, E>.getOrElse(provider: (E) -> T?): T? {
     return when (this) {
         is Result.SUCCESS -> this.value
         is Result.ERROR -> provider(this.error)

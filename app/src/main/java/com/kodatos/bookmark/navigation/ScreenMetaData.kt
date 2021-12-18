@@ -1,9 +1,9 @@
 package com.kodatos.bookmark.navigation
 
 import androidx.navigation.NamedNavArgument
-import java.security.cert.CertPath
+import com.kodatos.shared.domain.destinations.Destination
 
 data class ScreenMetaData(
-    val completePath: String,
-    val argsList: List<NamedNavArgument>
+    val path: String,
+    val argsList: List<NamedNavArgument>,
 )

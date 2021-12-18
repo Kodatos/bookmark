@@ -1,14 +1,12 @@
 package com.kodatos.shared.domain.destinations
 
+enum class Destination(val route: String, val expectedArgument: ExpectedArgument) {
+    EXPLORE("explore", ExpectedArgument.NO_ARGS),
+    BOOKSHELF("bookshelf", ExpectedArgument.NO_ARGS)
+}
 
-sealed class Destination<T : DestinationArg>(
-    val route: String,
-    val arguments: T
-)
+enum class ExpectedArgument {
+    NO_ARGS,
+    STRING
+}
 
-sealed class NoArgsDestination(route: String) : Destination<EmptyArgs>(route, EmptyArgs)
-
-sealed interface DestinationArg
-
-object EmptyArgs : DestinationArg
-class StringArg(value: String): DestinationArg

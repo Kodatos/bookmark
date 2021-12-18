@@ -1,6 +1,6 @@
 package com.kodatos.bookmark.di
 
-import com.kodatos.bookmark.helper.DispatcherSet
+import com.kodatos.bookmark.helper.DispatcherProvider
 import com.kodatos.bookmark.helper.EventChannelProducer
 import com.kodatos.bookmark.helper.EventConsumer
 import com.kodatos.bookmark.helper.EventManager
@@ -24,7 +24,7 @@ interface SharedSingletonModule {
 
     companion object {
         @Provides
-        fun providesDispatcherSet(): DispatcherSet = object : DispatcherSet {
+        fun providesDispatcherProvider(): DispatcherProvider = object : DispatcherProvider {
             override val MAIN: CoroutineDispatcher
                 get() = Dispatchers.Main
             override val IO: CoroutineDispatcher

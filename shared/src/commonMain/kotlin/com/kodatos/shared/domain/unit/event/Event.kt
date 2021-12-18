@@ -9,6 +9,6 @@ sealed interface Event {
     /**
      * Returns a representative string for logging purposes
      */
-    fun asString(): String
+    override fun toString(): String
 }
 

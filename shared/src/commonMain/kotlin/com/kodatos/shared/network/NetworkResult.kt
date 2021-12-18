@@ -13,6 +13,6 @@ class NetworkSuccess<T>(data: T) :
 }
 
 class NetworkError(
-    error: String,
+    responseError: String,
     override val statusCode: HttpStatusCode,
-) : Result.ERROR<String>(error), NetworkResult
+) : Result.ERROR<String>("$statusCode : $responseError"), NetworkResult

@@ -3,9 +3,7 @@ package com.kodatos.shared
 import com.kodatos.shared.di.SharedComponent
 import com.kodatos.shared.di.create
 import com.kodatos.shared.domain.destinations.Destination
-import com.kodatos.shared.domain.destinations.ExploreDestination
 import com.kodatos.shared.platform.SQLProvider
-import kotlin.reflect.KClass
 
 abstract class PlatformLayer {
 
@@ -16,8 +14,8 @@ abstract class PlatformLayer {
         component = SharedComponent::class.create(SharedComponent.SharedComponentArgs(bookCacheSize))
     }
 
-    fun getDestinationsList(): List<KClass<out Destination<*>>> {
-        return listOf(ExploreDestination::class)
+    fun getDestinationsList(): List<Destination> {
+        return listOf(Destination.EXPLORE)
     }
 
 }
