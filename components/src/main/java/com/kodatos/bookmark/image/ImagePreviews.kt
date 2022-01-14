@@ -1,4 +1,4 @@
-package com.kodatos.bookmark.components.image
+package com.kodatos.bookmark.image
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding

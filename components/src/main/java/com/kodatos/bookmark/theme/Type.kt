@@ -1,4 +1,4 @@
-package com.kodatos.bookmark.components.theme
+package com.kodatos.bookmark.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

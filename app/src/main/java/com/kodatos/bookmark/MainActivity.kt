@@ -1,10 +1,11 @@
 package com.kodatos.bookmark
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.BackdropScaffold
@@ -19,16 +20,17 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
 import com.google.accompanist.insets.statusBarsHeight
-import com.google.accompanist.insets.statusBarsPadding
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import com.kodatos.bookmark.components.surface.PrimaryContainerSurface
+import com.kodatos.bookmark.surface.PrimaryContainerSurface
 import com.kodatos.bookmark.composeutils.collectAsLifecycleAware
-import com.kodatos.bookmark.components.theme.BookmarkTheme
-import com.kodatos.bookmark.components.typography.AppTitle
+import com.kodatos.bookmark.theme.BookmarkTheme
+import com.kodatos.bookmark.typography.AppTitle
+import com.kodatos.bookmark.typography.HeadingItalic
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -52,14 +54,6 @@ class MainActivity : ComponentActivity() {
                         darkIcons = useDarkIcons
                     )
 
-                    // setStatusBarsColor() and setNavigationBarsColor() also exist
-                }
-                val navState by testViewModel.navFlow.collectAsLifecycleAware(
-                    lifecycleOwner = LocalLifecycleOwner.current,
-                    initial = TestViewModel.Nav.PartiallyConcealed
-                )
-                TestBackdrop(navState) {
-                    testViewModel.setNav(it)
                 }
             }
         }
@@ -79,7 +73,7 @@ fun TestBackdrop(navState: TestViewModel.Nav, setNav: (TestViewModel.Nav) -> Uni
         }
     }
     val concealedHeight = if (navState is TestViewModel.Nav.PartiallyConcealed) {
-        100.dp
+        200.dp
     } else 56.dp
     BackdropScaffold(scaffoldState = backdropScaffoldState,
         appBar = {
@@ -91,8 +85,17 @@ fun TestBackdrop(navState: TestViewModel.Nav, setNav: (TestViewModel.Nav) -> Uni
                         .fillMaxWidth()
                         .wrapContentHeight()
                 ) {
-                    Spacer(modifier = Modifier.statusBarsHeight(8.dp).fillMaxWidth())
-                    AppTitle(text = "Bookmark", Modifier.align(Alignment.CenterHorizontally).padding(4.dp))
+                    Spacer(
+                        modifier = Modifier
+                            .statusBarsHeight(8.dp)
+                            .fillMaxWidth()
+                    )
+                    AppTitle(
+                        text = "Bookmark",
+                        Modifier
+                            .align(Alignment.CenterHorizontally)
+                            .padding(4.dp)
+                    )
                 }
             }
         }, backLayerContent = {
@@ -112,13 +115,19 @@ fun BackLayer() {
         modifier = Modifier.fillMaxSize(),
         tonalElevation = 16.dp
     ) {
-
+        Column(modifier = Modifier.fillMaxHeight()) {
+            val ctx = LocalContext.current
+            HeadingItalic(text = "Click me", modifier = Modifier
+                .clickable {
+                    Toast.makeText(ctx, "Clicked", Toast.LENGTH_SHORT).show()
+                })
+        }
     }
 }
 
 @Composable
 fun FrontLayer(setNav: (TestViewModel.Nav) -> Unit) {
-    Surface() {
+    Surface(modifier = Modifier.fillMaxSize()) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.padding(vertical = 16.dp),

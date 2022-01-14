@@ -1,4 +1,4 @@
-package com.kodatos.bookmark.components.image
+package com.kodatos.bookmark.image
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.staticCompositionLocalOf

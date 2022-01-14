@@ -1,4 +1,4 @@
-package com.kodatos.bookmark.components
+package com.kodatos.bookmark
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
@@ -8,8 +8,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.kodatos.bookmark.components.theme.BookmarkTheme
-import com.kodatos.bookmark.components.typography.AppTitle
+import com.kodatos.bookmark.components.R
+import com.kodatos.bookmark.theme.BookmarkTheme
+import com.kodatos.bookmark.typography.AppTitle
 
 @Composable
 fun BookmarkTitle(modifier: Modifier = Modifier) {

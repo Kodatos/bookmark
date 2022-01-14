@@ -9,6 +9,7 @@ import com.kodatos.shared.domain.explore.ExploreState
 import com.kodatos.shared.domain.unit.DomainUnit
 import com.kodatos.shared.network.GoogleBooksHost
 import com.kodatos.shared.network.NYTHost
+import com.kodatos.shared.platform.DomainUnitsProvider
 import com.kodatos.shared.repo.BookmarkRepoImpl
 import com.kodatos.shared.repo.BookmarkRepository
 import me.tatarka.inject.annotations.Component

@@ -1,4 +1,4 @@
-package com.kodatos.bookmark.components.theme
+package com.kodatos.bookmark.theme
 
 import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.Color

@@ -4,6 +4,8 @@ import com.kodatos.bookmark.helper.DispatcherProvider
 import com.kodatos.bookmark.helper.EventChannelProducer
 import com.kodatos.bookmark.helper.EventConsumer
 import com.kodatos.bookmark.helper.EventManager
+import com.kodatos.shared.platform.AndroidPlatformLayer
+import com.kodatos.shared.platform.DomainUnitsProvider
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -22,6 +24,7 @@ interface SharedSingletonModule {
     @Binds
     fun bindsEventChannelProducer(eventManager: EventManager): EventChannelProducer
 
+
     companion object {
         @Provides
         fun providesDispatcherProvider(): DispatcherProvider = object : DispatcherProvider {
@@ -33,5 +36,8 @@ interface SharedSingletonModule {
                 get() = Dispatchers.Default
 
         }
+
+        @Provides
+        fun providesDomainUnitProvider(): DomainUnitsProvider = AndroidPlatformLayer.domainUnitsProvider
     }
 }

@@ -1,4 +1,4 @@
-package com.kodatos.bookmark.components.surface
+package com.kodatos.bookmark.surface
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -6,7 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.kodatos.bookmark.components.theme.elevateByPrimary
+import com.kodatos.bookmark.theme.elevateByPrimary
 
 @Composable
 fun PrimaryContainerSurface(
@@ -23,6 +23,7 @@ fun PrimaryContainerSurface(
         ),
         shadowElevation = shadowElevation,
         tonalElevation = tonalElevation,    //Pass on tonal elevation to wrapped surface
-        content = content
+        content = content,
+        contentColor = MaterialTheme.colorScheme.onPrimaryContainer
     )
 }

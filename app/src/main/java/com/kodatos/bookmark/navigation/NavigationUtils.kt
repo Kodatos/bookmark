@@ -5,7 +5,7 @@ import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import com.kodatos.shared.domain.destinations.*
-import com.kodatos.shared.domain.unit.event.NavEvent
+import com.kodatos.shared.domain.unit.event.NavigationEvent
 
 private fun getArgsList(destination: Destination): List<NamedNavArgument> {
     return when (destination.expectedArgument) {
@@ -35,21 +35,22 @@ private fun getArgumentPathForNavigation(argument: NavigationArgument): String {
     }
 }
 
-fun getRouteForNavigation(navEvent: NavEvent): String {
-    return "${navEvent.destination.route}${getArgumentPathForNavigation(navEvent.argument)}"
+fun getRouteForNavigation(navigationEvent: NavigationEvent): String {
+    return "${navigationEvent.destination.route}${getArgumentPathForNavigation(navigationEvent.argument)}"
 }
 
-fun getScreensMetadataList(destinationClassList: List<Destination>): List<ScreenMetaData> {
-    return destinationClassList.map {
+fun getScreensMetadataSet(destinationClassSet: Set<Destination>): Set<ScreenMetaData> {
+    return destinationClassSet.map {
         ScreenMetaData(
+            it,
             getScreenPath(it),
             getArgsList(it)
         )
-    }
+    }.toSet()
 }
 
-fun <R : NavigationArgument> parseDestinationArgs(args: Bundle, argument: ExpectedArgument): R {
-    val parsedArg: NavigationArgument = when (argument) {
+fun <R : NavigationArgument> parseDestinationArgs(args: Bundle, requiredDestination: Destination): R {
+    val parsedArg: NavigationArgument = when (requiredDestination.expectedArgument) {
         ExpectedArgument.NO_ARGS -> NoArgument
         ExpectedArgument.STRING -> StringArgument(args.getString("value", ""))
     }

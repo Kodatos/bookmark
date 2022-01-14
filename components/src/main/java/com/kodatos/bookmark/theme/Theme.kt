@@ -1,4 +1,4 @@
-package com.kodatos.bookmark.components.theme
+package com.kodatos.bookmark.theme
 
 import android.annotation.SuppressLint
 import android.os.Build
@@ -14,11 +14,9 @@ import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.remember
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import com.kodatos.bookmark.components.image.CoilImageProvider
-import com.kodatos.bookmark.components.image.LocalImageProvider
+import com.kodatos.bookmark.image.CoilImageProvider
+import com.kodatos.bookmark.image.LocalImageProvider
 
 
 private val DarkColorPalette = darkColors(

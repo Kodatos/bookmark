@@ -1,8 +1,6 @@
 @file:SuppressWarnings("MagicNumber")
-package com.kodatos.bookmark.components.theme
+package com.kodatos.bookmark.theme
 
-import androidx.compose.material.Colors
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
 

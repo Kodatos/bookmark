@@ -1,11 +1,10 @@
-package com.kodatos.bookmark.components.typography
+package com.kodatos.bookmark.typography
 
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.kodatos.bookmark.components.theme.LocalBookmarkColors
 
 @Composable
 fun AppTitle(text: String, modifier: Modifier = Modifier) {
