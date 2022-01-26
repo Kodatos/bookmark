@@ -1,4 +1,4 @@
-package com.kodatos.bookmark.viewmodels
+package com.kodatos.bookmark.base
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

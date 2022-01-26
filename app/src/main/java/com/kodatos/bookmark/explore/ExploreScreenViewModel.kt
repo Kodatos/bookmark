@@ -2,7 +2,7 @@ package com.kodatos.bookmark.explore
 
 import com.kodatos.bookmark.helper.DispatcherProvider
 import com.kodatos.bookmark.helper.EventConsumer
-import com.kodatos.bookmark.viewmodels.BaseScreenViewModel
+import com.kodatos.bookmark.base.BaseScreenViewModel
 import com.kodatos.shared.domain.BestsellerList
 import com.kodatos.shared.domain.explore.ExploreAction
 import com.kodatos.shared.domain.explore.ExploreState

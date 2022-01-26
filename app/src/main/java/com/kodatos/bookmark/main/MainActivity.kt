@@ -1,4 +1,4 @@
-package com.kodatos.bookmark
+package com.kodatos.bookmark.main
 
 import android.os.Bundle
 import android.widget.Toast
@@ -16,18 +16,16 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
 import com.google.accompanist.insets.statusBarsHeight
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.kodatos.bookmark.TestViewModel
 import com.kodatos.bookmark.surface.PrimaryContainerSurface
-import com.kodatos.bookmark.composeutils.collectAsLifecycleAware
 import com.kodatos.bookmark.theme.BookmarkTheme
 import com.kodatos.bookmark.typography.AppTitle
 import com.kodatos.bookmark.typography.HeadingItalic
@@ -55,6 +53,8 @@ class MainActivity : ComponentActivity() {
                     )
 
                 }
+
+                MainScreen()
             }
         }
     }
