@@ -2,18 +2,21 @@ package com.kodatos.shared.domain.explore
 
 import com.kodatos.shared.di.SharedSingleton
 import com.kodatos.shared.domain.BestsellerList
+import com.kodatos.shared.domain.common.Book
 import com.kodatos.shared.domain.common.Result
 import com.kodatos.shared.domain.common.getOrElse
 import com.kodatos.shared.domain.unit.DomainUnit
 import com.kodatos.shared.domain.unit.event.ToastEvent
+import com.kodatos.shared.network.response.NYTBestsellerResponse
 import com.kodatos.shared.repo.BookmarkRepository
 import io.github.aakira.napier.Napier
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.transform
 import me.tatarka.inject.annotations.Inject
 
 @SharedSingleton
 @Inject
-internal class ExploreDomainUnit(
+class ExploreDomainUnit(
     private val repository: BookmarkRepository
 ) : DomainUnit<ExploreState, ExploreAction>(initialState = ExploreState.Init) {
 
@@ -28,7 +31,7 @@ internal class ExploreDomainUnit(
 
     private suspend fun getRecommendedBooks(categories: List<BestsellerList>) {
         repository.getRecommendedBooks(categories)
-            .mapNotNull { response ->
+            .transform<Result<NYTBestsellerResponse, String>, List<Result<Book, String>>> { response ->
 
                 val bookResultList = response.getOrElse {
                     Napier.d(it)
@@ -40,10 +43,16 @@ internal class ExploreDomainUnit(
                         first.weeks_on_list - second.weeks_on_list
                     else
                         first.rank - second.rank
-                }?.mapNotNull {
-                    it.getISBN13()?.let { isbn ->
-                        repository.getBookDetails(isbn)
-                    }
+                }?.chunked(3)?.forEach { subList ->
+                    emit(subList.mapNotNull {
+                        val isbn13 = it.getISBN13()
+                        if (isbn13 == null) {
+                            Napier.d("ISBN null for", tag = TAG)
+                            null
+                        } else {
+                            repository.getBookDetails(isbn13)
+                        }
+                    })
                 }
             }.collect { bookDetails ->
                 val splitList = bookDetails.partition { it.isSuccess() }
@@ -52,7 +61,7 @@ internal class ExploreDomainUnit(
                         (it as Result.SUCCESS).value
                     }
                 splitList.second.forEach {
-                    Napier.d((it as Result.ERROR).error)
+                    Napier.d((it as Result.ERROR).error, tag = TAG)
                 }
                 if (bookList.isNotEmpty()) {
                     val currState = currentState
@@ -77,6 +86,10 @@ internal class ExploreDomainUnit(
             )
             setState(ExploreState.Error)
         }
+    }
+
+    companion object {
+        const val TAG = "ExploreDomainUnit"
     }
 
 }

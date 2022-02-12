@@ -22,7 +22,7 @@ class MainViewModel @Inject constructor(
 
     val uiEventFlow = eventChannelProducer.uiEventChannel.receiveAsFlow()
     val navigationChannel = Channel<String>(Channel.BUFFERED)
-    val backDropState = MutableStateFlow(BackdropState.PARTIALLY_REVEALED)
+    val backDropState = MutableStateFlow(BackdropState.FULLY_REVEALED)
 
     init {
         initNavigationFlow()

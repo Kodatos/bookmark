@@ -1,9 +1,7 @@
 package com.kodatos.shared.platform
 
-import com.kodatos.shared.domain.explore.ExploreAction
-import com.kodatos.shared.domain.explore.ExploreState
-import com.kodatos.shared.domain.unit.DomainUnit
+import com.kodatos.shared.domain.explore.ExploreDomainUnit
 
 interface DomainUnitsProvider {
-    val exploreDomainUnit: DomainUnit<ExploreState, ExploreAction>
+    val exploreDomainUnit: ExploreDomainUnit
 }

@@ -42,11 +42,10 @@ val BookmarkTypography = Typography(
                 fontWeight = FontWeight.Bold
         ),
         headlineMedium = TextStyle(
-                fontFamily = OpenSans,
-                fontSize = 28.sp,
-                letterSpacing = 0.15.sp,
-                fontWeight = FontWeight.Normal,
-                fontStyle = FontStyle.Italic
+            fontFamily = OpenSans,
+            fontSize = 28.sp,
+            letterSpacing = 0.15.sp,
+            fontWeight = FontWeight.SemiBold,
         ),
         titleLarge = TextStyle(
                 fontFamily = OpenSans,

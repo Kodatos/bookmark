@@ -44,8 +44,8 @@ kotlin {
         }
     }*/
     sourceSets {
-        val ktor_version = "1.6.2"
-        val kotest_version = "5.0.0.M3"
+        val ktor_version = "1.6.7"
+        val kotest_version = "5.1.0"
         val commonMain by getting {
             dependencies {
                 implementation("me.tatarka.inject:kotlin-inject-runtime:${rootProject.extra["kotlin_inject_version"]}")

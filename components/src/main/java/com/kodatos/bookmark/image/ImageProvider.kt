@@ -6,7 +6,6 @@ import androidx.compose.ui.graphics.painter.Painter
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.ImagePainter
 import coil.compose.rememberImagePainter
-import java.lang.IllegalStateException
 
 /**
  * Interface which abstracts providing images to composables.
@@ -26,7 +25,9 @@ object CoilImageProvider : ImageProvider {
     @OptIn(ExperimentalCoilApi::class)
     @Composable
     override fun getPainter(url: String): ImagePainter {
-        return rememberImagePainter(url)
+        return rememberImagePainter(url, builder = {
+            crossfade(true)
+        })
     }
 }
 

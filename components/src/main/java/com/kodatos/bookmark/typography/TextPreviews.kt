@@ -21,7 +21,7 @@ fun TextPreview() {
                 modifier = Modifier.padding(4.dp)
             )
 
-            HeadingItalic(
+            HeadingMedium(
                 text = "Heading",
                 modifier = Modifier
                     .background(MaterialTheme.colorScheme.surface)

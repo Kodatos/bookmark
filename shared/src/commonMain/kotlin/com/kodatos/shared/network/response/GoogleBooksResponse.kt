@@ -2,6 +2,7 @@ package com.kodatos.shared.network.response
 
 import kotlinx.serialization.Serializable
 
+@Serializable
 data class GBSearchResponse(
     val items: List<GBVolumeResponse>?
 )
@@ -17,14 +18,14 @@ data class GBVolumeResponse(
 data class VolumeInfo(
     val authors: List<String>,
     val averageRating: Double?,
-    val categories: List<String>,
-    val description: String,
+    val categories: List<String> = listOf(),
+    val description: String = "",
     //val dimensions: Dimensions,
-    val imageLinks: ImageLinks,
+    val imageLinks: ImageLinks = ImageLinks(),
     val industryIdentifiers: List<IndustryIdentifier>,
     val language: String,
     val maturityRating: String?,
-    val pageCount: Int,
+    val pageCount: Int = 0,
     val publishedDate: String?,
     val publisher: String?,
     val subtitle: String?,
@@ -39,8 +40,8 @@ data class VolumeInfo(
 
 @Serializable
 data class ImageLinks(
-    val smallThumbnail: String,
-    val thumbnail: String
+    val smallThumbnail: String? = null,
+    val thumbnail: String? = null
 )
 
 @Serializable

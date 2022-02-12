@@ -17,7 +17,7 @@ abstract class BaseScreenViewModel<S : State, A : Action>(
     protected val dispatchers: DispatcherProvider
 ): ViewModel() {
 
-    val state = domainUnit::state
+    val state by domainUnit::state
 
     init {
         viewModelScope.launch(dispatchers.DEFAULT) {

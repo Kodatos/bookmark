@@ -12,7 +12,9 @@ import androidx.compose.material.BackdropScaffold
 import androidx.compose.material.BackdropValue
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.rememberBackdropScaffoldState
-import androidx.compose.material3.*
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
@@ -28,7 +30,7 @@ import com.kodatos.bookmark.TestViewModel
 import com.kodatos.bookmark.surface.PrimaryContainerSurface
 import com.kodatos.bookmark.theme.BookmarkTheme
 import com.kodatos.bookmark.typography.AppTitle
-import com.kodatos.bookmark.typography.HeadingItalic
+import com.kodatos.bookmark.typography.HeadingMedium
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -117,7 +119,7 @@ fun BackLayer() {
     ) {
         Column(modifier = Modifier.fillMaxHeight()) {
             val ctx = LocalContext.current
-            HeadingItalic(text = "Click me", modifier = Modifier
+            HeadingMedium(text = "Click me", modifier = Modifier
                 .clickable {
                     Toast.makeText(ctx, "Clicked", Toast.LENGTH_SHORT).show()
                 })

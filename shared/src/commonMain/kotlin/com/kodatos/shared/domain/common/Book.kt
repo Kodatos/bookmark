@@ -7,7 +7,7 @@ interface BookInfo {
     val primaryAuthor: String
     val authors: List<String>?
     val description: String
-    val imageUrl: String
+    val imageUrl: String?
     val pageCount: Int
     val genres: List<String>?
     val publisher: String?
@@ -21,7 +21,7 @@ data class Book(
     override val primaryAuthor: String,
     override val authors: List<String>?,
     override val description: String,
-    override val imageUrl: String,
+    override val imageUrl: String?,
     override val pageCount: Int,
     override val genres: List<String>?,
     override val publisher: String?,

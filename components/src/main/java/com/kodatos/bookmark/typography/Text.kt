@@ -16,7 +16,7 @@ fun AppTitle(text: String, modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun HeadingItalic(text: String, modifier: Modifier = Modifier) {
+fun HeadingMedium(text: String, modifier: Modifier = Modifier) {
 
     Text(
         text = text,

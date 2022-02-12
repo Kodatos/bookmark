@@ -8,6 +8,7 @@ import io.ktor.client.call.*
 import io.ktor.client.features.*
 import io.ktor.client.features.cache.*
 import io.ktor.client.features.json.*
+import io.ktor.client.features.json.serializer.*
 import io.ktor.client.features.logging.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
@@ -22,7 +23,15 @@ import me.tatarka.inject.annotations.Inject
 internal class ApiClient() {
     private val ktorClient by lazy {
         HttpClient {
-            install(JsonFeature)
+            expectSuccess = false
+            install(JsonFeature) {
+                serializer = KotlinxSerializer(kotlinx.serialization.json.Json {
+                    prettyPrint = true
+                    ignoreUnknownKeys = true
+                    isLenient = true
+                    explicitNulls = false
+                })
+            }
             install(HttpCache)
             Charsets {
                 val utf8 = io.ktor.utils.io.charsets.Charsets.UTF_8
@@ -75,7 +84,9 @@ internal class ApiClient() {
         return if(response.status == HttpStatusCode.OK){
             NetworkSuccess(response.receive())
         } else {
-            NetworkError(response.receive(), response.status)
+            val error = NetworkError(response.receive(), response.status)
+            Napier.w(error.error)
+            error
         }
     }
 }

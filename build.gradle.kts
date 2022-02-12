@@ -4,7 +4,7 @@ buildscript {
     val kotlin_version by extra("1.5.31")
     val sqldelight_version by extra("1.5.1")
     val hilt_version by extra("2.38.1")
-    val kotlin_inject_version by extra("0.3.7-RC")
+    val kotlin_inject_version by extra("0.4.1")
     repositories {
         google()
         mavenCentral()
