@@ -3,6 +3,7 @@ plugins {
     id("kotlin-android")
     kotlin("kapt")
     id("dagger.hilt.android.plugin")
+    id("com.google.devtools.ksp") version "1.6.10-1.0.2"
 }
 
 android {
@@ -34,7 +35,6 @@ android {
     }
     kotlinOptions {
         jvmTarget = "1.8"
-        useIR = true
 
         freeCompilerArgs += listOf(
             "-P",
@@ -53,6 +53,7 @@ android {
 dependencies {
 
     val lifecycle_version = "2.4.0-alpha03"
+    val compose_destination_version = "1.3.1-beta"
 
     implementation(project(":shared"))
     implementation(project(":components"))
@@ -61,10 +62,10 @@ dependencies {
     implementation("com.google.android.material:material:1.4.0")
     implementation("androidx.compose.ui:ui:${rootProject.extra["compose_version"]}")
     implementation("androidx.compose.material:material:${rootProject.extra["compose_version"]}")
-    implementation("androidx.compose.material3:material3:1.0.0-alpha04")
+    implementation("androidx.compose.material3:material3:1.0.0-alpha06")
     implementation("com.jakewharton.timber:timber:5.0.1")
     implementation("androidx.compose.ui:ui-tooling:${rootProject.extra["compose_version"]}")
-    implementation("androidx.navigation:navigation-compose:2.5.0-alpha01")
+    implementation("androidx.navigation:navigation-compose:2.5.0-alpha03")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version")
     implementation("androidx.activity:activity-compose:1.4.0")
@@ -72,8 +73,8 @@ dependencies {
     implementation("com.google.accompanist:accompanist-insets:0.21.2-SNAPSHOT")
     implementation("com.google.accompanist:accompanist-systemuicontroller:0.21.2-SNAPSHOT")
     implementation("com.google.dagger:hilt-android:${rootProject.extra["hilt_version"]}")
-/*    implementation("com.airbnb.android:mavericks:$mvx_version")
-    implementation("com.airbnb.android:mavericks-compose:$mvx_compose_version")*/
+    implementation("io.github.raamcosta.compose-destinations:core:$compose_destination_version")
+    ksp("io.github.raamcosta.compose-destinations:ksp:$compose_destination_version")
     kapt("com.google.dagger:hilt-android-compiler:${rootProject.extra["hilt_version"]}")
     testImplementation("junit:junit:4.+")
     androidTestImplementation("androidx.test.ext:junit:1.1.3")
@@ -84,4 +85,15 @@ dependencies {
 // Allow references to generated code
 kapt {
     correctErrorTypes = true
+}
+
+kotlin {
+    sourceSets {
+        debug {
+            kotlin.srcDir("build/generated/ksp/debug/kotlin")
+        }
+        release {
+            kotlin.srcDir("build/generated/ksp/release/kotlin")
+        }
+    }
 }

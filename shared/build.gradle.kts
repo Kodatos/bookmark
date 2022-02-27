@@ -5,11 +5,11 @@ import java.io.FileInputStream
 
 plugins {
     kotlin("multiplatform")
-    kotlin("plugin.serialization") version "1.5.31"
+    kotlin("plugin.serialization") version "1.6.10"
     id("com.android.library")
     id("com.squareup.sqldelight")
     id("com.codingfeline.buildkonfig")
-    id("com.google.devtools.ksp") version "1.6.0-RC-1.0.1-RC"
+    id("com.google.devtools.ksp") version "1.6.10-1.0.2"
 
 }
 
@@ -49,7 +49,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation("me.tatarka.inject:kotlin-inject-runtime:${rootProject.extra["kotlin_inject_version"]}")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0")
                 implementation("io.ktor:ktor-client-core:$ktor_version")
                 implementation("io.ktor:ktor-client-serialization:$ktor_version")
                 implementation("io.ktor:ktor-client-logging:$ktor_version")

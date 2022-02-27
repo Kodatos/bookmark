@@ -4,12 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kodatos.bookmark.helper.DispatcherProvider
 import com.kodatos.bookmark.helper.EventChannelProducer
-import com.kodatos.bookmark.navigation.getRouteForNavigation
-import com.kodatos.shared.domain.destinations.Destination
+import com.kodatos.shared.domain.destinations.NavigationDestination
+import com.kodatos.shared.domain.unit.event.NavigationEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -21,8 +20,8 @@ class MainViewModel @Inject constructor(
 ): ViewModel() {
 
     val uiEventFlow = eventChannelProducer.uiEventChannel.receiveAsFlow()
-    val navigationChannel = Channel<String>(Channel.BUFFERED)
-    val backDropState = MutableStateFlow(BackdropState.FULLY_REVEALED)
+    val navigationChannel = Channel<NavigationEvent>(Channel.BUFFERED)
+    val backDropState = MutableStateFlow(BackdropState.PARTIALLY_REVEALED)
 
     init {
         initNavigationFlow()
@@ -32,19 +31,19 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch(dispatcherProvider.MAIN) {
             eventChannelProducer.navigationEventFlow.collect {
                 handleBackdropState(it.destination)
-                if(it.destination != Destination.EXPLORE){
-                    navigationChannel.send(getRouteForNavigation(it))
+                if (it.destination != NavigationDestination.EXPLORE) {
+                    navigationChannel.send(it)
                 }
             }
         }
     }
 
-    fun handleBackdropState(destination: Destination) {
+    fun handleBackdropState(destination: NavigationDestination) {
         backDropState.value = when (destination) {
-            Destination.EXPLORE -> {
+            NavigationDestination.EXPLORE -> {
                 BackdropState.FULLY_REVEALED
             }
-            Destination.BOOKSHELF -> {
+            NavigationDestination.BOOKSHELF -> {
                 BackdropState.PARTIALLY_REVEALED
             }
             else -> {
