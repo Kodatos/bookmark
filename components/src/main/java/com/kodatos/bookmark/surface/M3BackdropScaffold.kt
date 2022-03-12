@@ -1,15 +1,16 @@
 package com.kodatos.bookmark.surface
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.BackdropScaffold
 import androidx.compose.material.BackdropScaffoldDefaults
 import androidx.compose.material.BackdropScaffoldState
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.insets.statusBarsHeight
@@ -59,9 +60,7 @@ fun M3BackdropScaffold(
             }
         },
         frontLayerContent = {
-            Surface(modifier = Modifier.fillMaxSize()) {
-                frontLayerContent()
-            }
+            frontLayerContent()
         },
         scaffoldState = scaffoldState,
         peekHeight = concealedHeight,
@@ -69,7 +68,9 @@ fun M3BackdropScaffold(
         modifier = modifier,
         stickyFrontLayer = false,
         backLayerBackgroundColor = MaterialTheme.colorScheme.surface,
-        frontLayerBackgroundColor = MaterialTheme.colorScheme.surface,
-        headerHeight = headerHeight
+        frontLayerBackgroundColor = Color.Transparent,
+        frontLayerScrimColor = Color.Unspecified,
+        headerHeight = headerHeight,
+        frontLayerShape = RoundedCornerShape(0.dp)
     )
 }

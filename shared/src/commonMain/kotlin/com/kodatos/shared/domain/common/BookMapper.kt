@@ -12,11 +12,15 @@ internal fun getBookFrom(networkBook: GBVolumeResponse): Book {
             primaryAuthor = authors.first(),
             authors = authors.drop(1),
             description = description,
-            imageUrl = imageLinks.thumbnail ?: imageLinks.smallThumbnail,
+            imageUrl = getBookImageUrl(networkBook),
             pageCount = pageCount,
             genres = categories,
             publisher = publisher,
             onlineRating = averageRating
         )
     }
+}
+
+internal fun getBookImageUrl(gbVolumeResponse: GBVolumeResponse): String {
+    return "https://books.google.com/books/content?id=${gbVolumeResponse.id}&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
 }

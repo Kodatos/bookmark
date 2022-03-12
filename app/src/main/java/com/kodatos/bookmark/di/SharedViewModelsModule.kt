@@ -1,5 +1,6 @@
 package com.kodatos.bookmark.di
 
+import com.kodatos.shared.domain.bookshelf.BookshelfDomainUnit
 import com.kodatos.shared.domain.explore.ExploreDomainUnit
 import com.kodatos.shared.platform.DomainUnitsProvider
 import dagger.Module
@@ -14,4 +15,8 @@ object SharedViewModelsModule {
     @Provides
     fun exploreDomainUnit(domainUnitsProvider: DomainUnitsProvider): ExploreDomainUnit =
         domainUnitsProvider.exploreDomainUnit
+
+    @Provides
+    fun bookshelfDomainUnit(domainUnitsProvider: DomainUnitsProvider): BookshelfDomainUnit =
+        domainUnitsProvider.bookshelfDomainUnit
 }

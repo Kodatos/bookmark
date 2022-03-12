@@ -2,15 +2,12 @@ package com.kodatos.shared.domain.explore
 
 import com.kodatos.shared.di.SharedSingleton
 import com.kodatos.shared.domain.BestsellerList
-import com.kodatos.shared.domain.common.Book
 import com.kodatos.shared.domain.common.Result
 import com.kodatos.shared.domain.common.getOrElse
 import com.kodatos.shared.domain.unit.DomainUnit
 import com.kodatos.shared.domain.unit.event.ToastEvent
-import com.kodatos.shared.network.response.NYTBestsellerResponse
 import com.kodatos.shared.repo.BookmarkRepository
 import io.github.aakira.napier.Napier
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.transform
 import me.tatarka.inject.annotations.Inject
 
@@ -31,7 +28,7 @@ class ExploreDomainUnit(
 
     private suspend fun getRecommendedBooks(categories: List<BestsellerList>) {
         repository.getRecommendedBooks(categories)
-            .transform<Result<NYTBestsellerResponse, String>, List<Result<Book, String>>> { response ->
+            .transform { response ->
 
                 val bookResultList = response.getOrElse {
                     Napier.d(it)
@@ -68,10 +65,10 @@ class ExploreDomainUnit(
                     setState(
                         when (currState) {
                             is ExploreState.Init, ExploreState.Error -> {
-                                ExploreState.ExploreBooksState(bookList)
+                                ExploreState.ExploreBooksState(bookList.toExploreBookList())
                             }
                             is ExploreState.ExploreBooksState -> {
-                                ExploreState.ExploreBooksState(currState.books + bookList)
+                                ExploreState.ExploreBooksState(currState.books + bookList.toExploreBookList())
                             }
                         }
                     )

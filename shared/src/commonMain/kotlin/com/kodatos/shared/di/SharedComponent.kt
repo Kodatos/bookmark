@@ -2,6 +2,7 @@ package com.kodatos.shared.di
 
 import com.kodatos.shared.cache.BookDetailsCache
 import com.kodatos.shared.cache.MemoryCache
+import com.kodatos.shared.domain.bookshelf.BookshelfDomainUnit
 import com.kodatos.shared.domain.common.Book
 import com.kodatos.shared.domain.explore.ExploreDomainUnit
 import com.kodatos.shared.network.GoogleBooksHost
@@ -17,6 +18,7 @@ internal abstract class SharedComponent(@get:Provides private val args: SharedCo
 
     protected abstract val repository: BookmarkRepository
     abstract val exploreDomainUnit: ExploreDomainUnit
+    abstract val bookshelfDomainUnit: BookshelfDomainUnit
 
     protected val BookmarkRepoImpl.bind: BookmarkRepository
        @SharedSingleton @Provides get() = this

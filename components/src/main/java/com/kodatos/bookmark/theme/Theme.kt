@@ -1,10 +1,8 @@
 package com.kodatos.bookmark.theme
 
-import android.annotation.SuppressLint
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material3.MaterialTheme as Material3Theme
 import androidx.compose.material.Typography
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
@@ -17,6 +15,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.platform.LocalContext
 import com.kodatos.bookmark.image.CoilImageProvider
 import com.kodatos.bookmark.image.LocalImageProvider
+import androidx.compose.material3.MaterialTheme as Material3Theme
 
 
 private val DarkColorPalette = darkColors(
@@ -98,7 +97,6 @@ private val DarkThemeColors = darkColorScheme(
 )
 
 
-@SuppressLint("NewApi")
 @Composable
 fun BookmarkTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {
     val colors = if (darkTheme) {

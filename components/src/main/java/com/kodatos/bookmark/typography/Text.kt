@@ -27,6 +27,17 @@ fun HeadingMedium(text: String, modifier: Modifier = Modifier) {
 }
 
 @Composable
+fun TitleLarge(text: String, modifier: Modifier = Modifier) {
+
+    Text(
+        text = text,
+        style = MaterialTheme.typography.titleLarge,
+        modifier = modifier
+    )
+
+}
+
+@Composable
 fun BodyMedium(text: String, modifier: Modifier = Modifier) {
     Text(
         text = text,

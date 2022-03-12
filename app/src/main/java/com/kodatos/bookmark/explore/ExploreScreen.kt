@@ -14,12 +14,12 @@ import androidx.compose.ui.unit.dp
 import com.kodatos.bookmark.R
 import com.kodatos.bookmark.components.cards.ImageCard
 import com.kodatos.bookmark.composeutils.collectStateLifecycleAware
-import com.kodatos.bookmark.typography.HeadingMedium
+import com.kodatos.bookmark.typography.TitleLarge
 import com.kodatos.shared.domain.explore.ExploreState
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun ExploreScreen(viewModel: ExploreScreenViewModel) {
+fun ExploreScreen(viewModel: ExploreScreenViewModel, isExpanded: Boolean) {
     val state by viewModel.state.collectStateLifecycleAware(
         lifecycleOwner = LocalLifecycleOwner.current
     )
@@ -28,7 +28,7 @@ fun ExploreScreen(viewModel: ExploreScreenViewModel) {
             .fillMaxSize()
             .padding(vertical = 16.dp)
     ) {
-        HeadingMedium(
+        TitleLarge(
             text = stringResource(id = R.string.bestseller_headline),
             modifier = Modifier.padding(horizontal = 16.dp)
         )
@@ -37,12 +37,12 @@ fun ExploreScreen(viewModel: ExploreScreenViewModel) {
                 LazyVerticalGrid(
                     cells = GridCells.Fixed(3),
                     contentPadding = PaddingValues(all = 8.dp),
-                    modifier = Modifier.fillMaxHeight()
+                    modifier = Modifier.fillMaxHeight(),
+                    userScrollEnabled = isExpanded
                 ) {
                     items(state.books) { book ->
                         ImageCard(
                             url = book.imageUrl,
-                            elevation = 4.dp,
                             cornerSize = 4.dp,
                             modifier = Modifier
                                 .height(196.dp)

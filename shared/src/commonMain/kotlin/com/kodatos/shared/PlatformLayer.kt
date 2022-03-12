@@ -2,6 +2,7 @@ package com.kodatos.shared
 
 import com.kodatos.shared.di.SharedComponent
 import com.kodatos.shared.di.create
+import com.kodatos.shared.domain.bookshelf.BookshelfDomainUnit
 import com.kodatos.shared.domain.explore.ExploreDomainUnit
 import com.kodatos.shared.platform.DomainUnitsProvider
 import com.kodatos.shared.platform.SQLProvider
@@ -24,6 +25,8 @@ abstract class PlatformLayer {
         domainUnitsProvider = object : DomainUnitsProvider {
             override val exploreDomainUnit: ExploreDomainUnit
                 get() = component.exploreDomainUnit
+            override val bookshelfDomainUnit: BookshelfDomainUnit
+                get() = component.bookshelfDomainUnit
 
         }
     }

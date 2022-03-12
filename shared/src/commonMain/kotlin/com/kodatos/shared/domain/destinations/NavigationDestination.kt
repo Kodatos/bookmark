@@ -1,12 +1,7 @@
 package com.kodatos.shared.domain.destinations
 
-enum class NavigationDestination(val route: String, val expectedArgument: ExpectedArgument) {
-    EXPLORE("explore", ExpectedArgument.NO_ARGS),
-    BOOKSHELF("bookshelf", ExpectedArgument.NO_ARGS)
-}
-
-enum class ExpectedArgument {
-    NO_ARGS,
-    STRING
+sealed class NavigationDestination(val route: String) {
+    class Explore : NavigationDestination("explore")
+    class Bookshelf : NavigationDestination("bookshelf")
 }
 

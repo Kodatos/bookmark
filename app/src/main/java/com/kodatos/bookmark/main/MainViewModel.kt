@@ -9,6 +9,7 @@ import com.kodatos.shared.domain.unit.event.NavigationEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -17,11 +18,13 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     private val eventChannelProducer: EventChannelProducer,
     private val dispatcherProvider: DispatcherProvider
-): ViewModel() {
+) : ViewModel() {
 
     val uiEventFlow = eventChannelProducer.uiEventChannel.receiveAsFlow()
     val navigationChannel = Channel<NavigationEvent>(Channel.BUFFERED)
-    val backDropState = MutableStateFlow(BackdropState.PARTIALLY_REVEALED)
+    private val _backDropState = MutableStateFlow(BackdropState.PARTIALLY_REVEALED)
+    val backDropState: StateFlow<BackdropState>
+        get() = _backDropState
 
     init {
         initNavigationFlow()
@@ -31,19 +34,24 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch(dispatcherProvider.MAIN) {
             eventChannelProducer.navigationEventFlow.collect {
                 handleBackdropState(it.destination)
-                if (it.destination != NavigationDestination.EXPLORE) {
+                if (it.destination !is NavigationDestination.Explore) {
                     navigationChannel.send(it)
                 }
             }
         }
     }
 
+
+    fun returnToBookshelf() {
+        _backDropState.value = BackdropState.PARTIALLY_REVEALED
+    }
+
     fun handleBackdropState(destination: NavigationDestination) {
-        backDropState.value = when (destination) {
-            NavigationDestination.EXPLORE -> {
+        _backDropState.value = when (destination) {
+            is NavigationDestination.Explore -> {
                 BackdropState.FULLY_REVEALED
             }
-            NavigationDestination.BOOKSHELF -> {
+            is NavigationDestination.Bookshelf -> {
                 BackdropState.PARTIALLY_REVEALED
             }
             else -> {
